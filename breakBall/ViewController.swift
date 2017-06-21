@@ -138,7 +138,7 @@ class ViewController: UIViewController {
         if (ball.center.y < CGFloat(190 + 15)) {
             if (ball.center.y > ballRadius){
                 
-                for i in 0...56{
+                for i in 0...14{
                     if (ball.center.y <= brick.bricks[i].center.y + CGFloat(10+15+100)
                         && ball.center.x >= (brick.bricks[i].center.x-45)
                         && ball.center.x <= (brick.bricks[i].center.x+45)){
@@ -146,7 +146,7 @@ class ViewController: UIViewController {
                         direction = dic
                         moveBrick(b1: brick.bricks[i], b2: brick.brickOut)
                        
-                        }
+                        
 //                        if(rdColor == 5){
 //                            rdColor = 0
 //                        }
@@ -154,7 +154,7 @@ class ViewController: UIViewController {
 //                        rdColor = rdColor + 1
 //                        tinhDiem()
                         return
-                    
+                    }
                     }
                 
 //                if count == 15 {
