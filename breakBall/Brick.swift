@@ -23,6 +23,9 @@ class Brick: UIView {
     var magin:CGFloat = 10
     var count:Int!
     var value:Int!
+    var maginBien:CGFloat = 30
+    var colors = [UIColor.red,UIColor.yellow,UIColor.blue,UIColor.white]
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addBrick()
@@ -34,20 +37,18 @@ class Brick: UIView {
     
     func addBrick() {
         for indexHang in 0..<3 {
-            for indexCot in 0..<7{
-                brick = UIView(frame: CGRect(x: magin + CGFloat(indexCot) * spaceBetwenCot(), y: 10 + magin*CGFloat(indexHang+1) + CGFloat(indexHang)*CGFloat(30) , width: 50, height: 30))
+            for indexCot in 0..<5{
+                brick = UIView(frame: CGRect(x: maginBien + CGFloat(indexCot) * spaceBetwenCot(), y: magin*CGFloat(indexHang+1) + CGFloat(indexHang)*CGFloat(20) , width: 60, height: 20))
                 brick.layer.backgroundColor = UIColor.red.cgColor
                 bricks.append(brick)
                 self.addSubview(brick)
-                
-                
             }
         }
-        brickOut = UIView(frame: CGRect(x: frame.width + 200, y: 100, width: 10, height: 10))
+        brickOut = UIView(frame: CGRect(x: frame.width + 200, y: 100, width: 60, height: 20))
         self.addSubview(brickOut)
     }
     func spaceBetwenCot() -> CGFloat {
-        let space = (frame.width - magin * 2 - 50) / CGFloat(6)
+        let space = (frame.width - maginBien * 2 - 60) / CGFloat(4)
         return space
     }
     
