@@ -24,27 +24,16 @@ class ViewController: UIViewController {
     var time:Timer!
     var colors = [UIColor]()
 //    var rdColor = 0
-//    var hienThiMang:UILabel!
-//    var hienThiDiem:UILabel!
-//    var mangChoi1:UITextField!
-//    var diemChoi1:UITextField!
-    
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         addBall()
         addPad()
-//        mangChoi()
-//        diemchoi()
-//        addDiem()
-//        addMang()
         colors = [UIColor.red,UIColor.yellow,UIColor.blue,UIColor.white]
         brick = Brick(frame: CGRect(x: 0, y: 100, width: self.view.bounds.size.width, height: 90))
         view.addSubview(brick)
-        time = Timer.scheduledTimer(timeInterval: 0.008, target: self, selector: #selector(check), userInfo: nil, repeats: true)
+        time = Timer.scheduledTimer(timeInterval: 0.009, target: self, selector: #selector(check), userInfo: nil, repeats: true)
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan))
         pad.isUserInteractionEnabled = true
         pad.addGestureRecognizer(panGesture)
@@ -75,7 +64,7 @@ class ViewController: UIViewController {
     }
     
     func addPad() {
-        pad = UIView(frame: CGRect(x: self.view.bounds.size.width/2 - 80, y: self.view.bounds.size.height-30, width: 160, height: 30))
+        pad = UIView(frame: CGRect(x: self.view.bounds.size.width/2 - 80, y: self.view.bounds.size.height-50, width: 160, height: 30))
         pad.layer.backgroundColor = UIColor.green.cgColor
         self.view.addSubview(pad)
     }
@@ -120,31 +109,34 @@ class ViewController: UIViewController {
         }
         if (ball.center.y >= view.bounds.size.height - ballRaius) {
             ball.center = CGPoint (x: 0, y: view.bounds.size.height/2)
-//            mang -= 1
+            mang -= 1
         }
-//        if mang == 0 {
-//            self.ball.removeFromSuperview()
-//            time.invalidate()
-//            thongBaoThua()
         }
-//        tinhMangChoi()
-    
     
     func check() {
         
         let dic = randomCGFloat(min: 0.5, max: 1.0)
         rollBall()
         vaCham()
-        if (ball.center.y < CGFloat(190 + 15)) {
+        thang()
+        thua()
+        if (ball.center.y <= CGFloat(190 + 15)) {
             if (ball.center.y > ballRadius){
                 
-                for i in 0...14{
+                for i in 0...8{
                     if (ball.center.y <= brick.bricks[i].center.y + CGFloat(10+15+100)
-                        && ball.center.x >= (brick.bricks[i].center.x-45)
-                        && ball.center.x <= (brick.bricks[i].center.x+45)){
+                        && ball.center.x >= (brick.bricks[i].center.x-55)
+                        && ball.center.x <= (brick.bricks[i].center.x+55)){
                         count = count + 1
-                        direction = dic
+                        brick.valueBrick[i] += 1
+                        if(brick.valueBrick[i]==4){
                         moveBrick(b1: brick.bricks[i], b2: brick.brickOut)
+                        direction = dic
+                        return
+                        }
+                        brick.bricks[i].layer.backgroundColor = brick.colors[brick.valueBrick[i]].cgColor
+                        direction = dic
+
                        
                         
 //                        if(rdColor == 5){
@@ -156,15 +148,9 @@ class ViewController: UIViewController {
                         return
                     }
                     }
-                
-//                if count == 15 {
-//                    self.ball.removeFromSuperview()
-//                    time.invalidate()
-//                    thongBaoThang()
-                
             }
             
-            else{
+            if ball.center.y <= 80{
                 direction = dic
             }
         }
@@ -172,7 +158,7 @@ class ViewController: UIViewController {
 
     
     func thang() {
-        if count == 15 {
+        if count == 36 {
             self.ball.removeFromSuperview()
             time.invalidate()
             thongBaoThang()
@@ -198,8 +184,6 @@ class ViewController: UIViewController {
         let btnOK = UIAlertAction(title: "OK", style: .default) { (action) in
             self.count = 0
             self.mang = 5
-//            self.diemChoi1.text = ""
-//            self.mangChoi1.text = String(5)
             self.resetBroad()
             self.addBall()
             self.rollBall()
@@ -213,8 +197,6 @@ class ViewController: UIViewController {
         let btnOK = UIAlertAction(title: "OK", style: .default) { (action) in
             self.mang = 5
             self.count = 0
-//            self.diemChoi1.text = ""
-//            self.mangChoi1.text = String(5)
             self.resetBroad()
             self.addBall()
             self.rollBall()
@@ -230,42 +212,10 @@ class ViewController: UIViewController {
         ball.removeFromSuperview()
         brick = Brick(frame: CGRect(x: 0, y: 100, width: self.view.bounds.size.width, height: 90))
         view.addSubview(brick)
-        time = Timer.scheduledTimer(timeInterval: 0.008, target: self, selector: #selector(check), userInfo: nil, repeats: true)
+        time = Timer.scheduledTimer(timeInterval: 0.009, target: self, selector: #selector(check), userInfo: nil, repeats: true)
     
     }
     
-//    func mangChoi() {
-//        hienThiMang = UILabel(frame: CGRect(x: 10, y: 20, width: 50, height: 20))
-//        hienThiMang.text = "LIFE"
-//        self.view.addSubview(hienThiMang)
-//    }
-//    
-//    func diemchoi() {
-//        hienThiDiem = UILabel(frame: CGRect(x: self.view.bounds.size.width - 80, y: 20, width: 50, height: 20))
-//        hienThiDiem.text = "ĐIỂM"
-//        self.view.addSubview(hienThiDiem)
-//    }
-//    
-//    func addMang() {
-//        mangChoi1 = UITextField(frame: CGRect(x: 63, y: 20, width: 20, height: 20))
-//        mangChoi1.text = ""
-//        self.view.addSubview(mangChoi1)
-//    }
-//    
-//    func addDiem() {
-//        diemChoi1 = UITextField(frame: CGRect(x: self.view.bounds.size.width - 27, y: 20, width: 20, height: 20))
-//        diemChoi1.text = ""
-//        self.view.addSubview(diemChoi1)
-//    }
-//    
-//    func tinhDiem() {
-//        diemChoi1.text = String(count)
-//        
-//    }
-//    
-//    func tinhMangChoi() {
-//        mangChoi1.text = String(mang)
-//    }
 }
 
 
